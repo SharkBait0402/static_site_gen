@@ -16,7 +16,7 @@ class TestTextNode(unittest.TestCase):
 
     def test_url(self):
         node = TextNode("dummy text", TextType.TEXT)
-        self.assertEqual(node.url, None)
+        self.assertEqual(node.url_exist, False)
 
 if __name__ == "__main__":
     unittest.main()
