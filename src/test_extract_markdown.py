@@ -24,13 +24,28 @@ class TestTextNode(unittest.TestCase):
             ),
             ]
 
-        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], new_nodes)
+        self.assertListEqual(correct, new_nodes)
 
-    # def test_extract_markdown_links(self):
-    #     matches = extract_markdown_links(
-    #         "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-    #     )
-    #     self.assertListEqual([("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")], matches)
+    def test_image(self):
+        node = TextNode(
+        "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+        TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_link([node])
+
+        correct =  [
+            TextNode("This is text with an ", TextType.TEXT),
+            TextNode("image", TextType.IMG, "https://www.boot.dev"),
+            TextNode(" and another ", TextType.TEXT),
+            TextNode(
+                "to youtube", TextType.IMG, "https://www.youtube.com/@bootdotdev"
+            ),
+            ]
+
+        self.assertListEqual(correct, new_nodes)
+
+
 
 
 if __name__ == "__main__":

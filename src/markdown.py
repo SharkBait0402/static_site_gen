@@ -36,26 +36,47 @@ def extract_markdown_links(text):
     links = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
     return links
 
+# "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+
 def split_nodes_link(old_nodes):
     nodes = []
 
+
     for node in old_nodes:
 
-        print(extract_markdown_links(node.text))
-        split_node = node.text.split(extract_markdown_links(node.text)[0])
+        chunks = extract_markdown_links(node.text)
+
+        txt = node.text
+
+        links = []
+
+        for link in chunks:
+            anchor = link[0]
+            url = link[1]
+            
+            split_node = txt.split(f"[{anchor}]({url})")
+            txt = split_node[1]
+            links.append(split_node[0])
+            links.append(f"[{anchor}]({url})")
+            # print("node", links)
+            
+        # print(links)
+
         if node.type is TextType.TEXT:
-            for text in split_node:
-                #print(text)
+            for text in links:
+                # print(text)
                 if text == "":
                     break
                 if text.startswith(" ") or text.endswith(" "):
                     nodes.append(TextNode(text, TextType.TEXT))
 
                 elif not text.startswith(" ") and not text.endswith(" "):
-                    nodes.append(TextNode(text, TextType.LINK))
+                    info = extract_markdown_links(text)[0]
+                    nodes.append(TextNode(info[0], TextType.LINK, info[1]))
         else:
             nodes.append(node)
 
+    print(nodes)
     return nodes
 
 def split_nodes_image(old_nodes):
