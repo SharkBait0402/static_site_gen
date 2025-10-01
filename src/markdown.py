@@ -66,13 +66,15 @@ def split_nodes_link(old_nodes):
             url = link[1]
             
             split_node = txt.split(f"[{anchor}]({url})")
-            print('split... ', split_node)
+            # print('split... ', split_node)
             txt = split_node[1]
             links.append(split_node[0])
             links.append(f"[{anchor}]({url})")
+        if txt is not None:
+            links.append(txt)
             # print("node", links)
             
-        print('links... ', links)
+        # print('links... ', links)
 
         if node.type is TextType.TEXT:
             # print('chunks... ', chunks)
@@ -115,13 +117,17 @@ def split_nodes_image(old_nodes):
         links = []
 
         for link in chunks:
+            # print('link... ', link)
             anchor = link[0]
             url = link[1]
             
             split_node = txt.split(f"![{anchor}]({url})")
+            # print('split... ', split_node)
             txt = split_node[1]
             links.append(split_node[0])
             links.append(f"[{anchor}]({url})")
+        if txt is not None:
+            links.append(txt)
             # print("node", links)
             
         # print(links)
@@ -160,7 +166,7 @@ def text_to_text_nodes(text):
     new_nodes = split_delimiter([node], "**", TextType.BOLD)
     new_nodes = split_delimiter(new_nodes, "`", TextType.CODE)
     new_nodes = split_delimiter(new_nodes, "_", TextType.ITALIC)
-    # new_nodes = split_nodes_image(new_nodes)
+    new_nodes = split_nodes_image(new_nodes)
     new_nodes = split_nodes_link(new_nodes)
 
     return new_nodes

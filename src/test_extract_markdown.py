@@ -23,9 +23,10 @@ class TestTextNode(unittest.TestCase):
             ),
             ]
 
+        # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
-    def test_link(self):
+    def test_link_in_text(self):
         node = TextNode(
         "This is text with a link [to boot dev](https://www.boot.dev) in the middle of some text",
         TextType.TEXT,
@@ -36,10 +37,10 @@ class TestTextNode(unittest.TestCase):
         correct =  [
             TextNode("This is text with a link ", TextType.TEXT),
             TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
-            TextNode(" in the middle of some text ", TextType.TEXT),
+            TextNode(" in the middle of some text", TextType.TEXT),
             ]
 
-        print('new_nodes... ', new_nodes)
+        # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
     def test_image(self):

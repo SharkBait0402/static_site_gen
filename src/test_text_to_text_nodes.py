@@ -8,7 +8,7 @@ class TestTextNode(unittest.TestCase):
 
     def test_node(self):
         
-        text = "This is **text** with an _italic_ word and a `code block` and an [link](https://boot.dev) and a ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
+        text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
 
         new_nodes = text_to_text_nodes(text)
 
@@ -27,7 +27,7 @@ class TestTextNode(unittest.TestCase):
 
         # print('\n\nnew nodes... ', new_nodes, '\n\n')
         # print('correct... ', correct, '\n\n')
-        # self.assertListEqual(correct, new_nodes)
+        self.assertListEqual(correct, new_nodes)
 
 
 
