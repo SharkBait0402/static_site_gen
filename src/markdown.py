@@ -2,7 +2,8 @@ import re
 from textnode import TextNode, TextType, text_node_to_html
 
 
-bold_node = TextNode("This is text with a `code block` word", TextType.TEXT)
+
+
 
 def split_delimiter(old_nodes, delimiter, text_type):
 
@@ -28,6 +29,9 @@ def split_delimiter(old_nodes, delimiter, text_type):
     return nodes
 
 
+
+
+
 def extract_markdown_images(text):
     images = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
     return images
@@ -36,7 +40,6 @@ def extract_markdown_links(text):
     links = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
     return links
 
-# "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
 
 def split_nodes_link(old_nodes):
     nodes = []
@@ -45,6 +48,67 @@ def split_nodes_link(old_nodes):
     for node in old_nodes:
 
         chunks = extract_markdown_links(node.text)
+        # print('node...', node)
+
+        txt = node.text
+
+        links = []
+
+        # print('txt... ', txt)
+
+        if chunks == []:
+            nodes.append(node)
+            continue
+
+        for link in chunks:
+            # print('link... ', link)
+            anchor = link[0]
+            url = link[1]
+            
+            split_node = txt.split(f"[{anchor}]({url})")
+            print('split... ', split_node)
+            txt = split_node[1]
+            links.append(split_node[0])
+            links.append(f"[{anchor}]({url})")
+            # print("node", links)
+            
+        print('links... ', links)
+
+        if node.type is TextType.TEXT:
+            # print('chunks... ', chunks)
+            for text in links:
+                # print('text...', f"\'{text}\'")
+                if text == "":
+                    continue
+                if text.startswith(" ") or text.endswith(" "):
+                    # print("ran")
+                    nodes.append(TextNode(text, TextType.TEXT))
+                    # print('temp_nodes...', nodes)
+
+                elif not text.startswith(" ") and not text.endswith(" "):
+                    info = extract_markdown_links(text)[0]
+                    # print('info... ', info)
+                    nodes.append(TextNode(info[0], TextType.LINK, info[1]))
+
+        else:
+            nodes.append(node)
+
+    # print('\n\n\nnodes', nodes)
+    return nodes
+
+def split_nodes_image(old_nodes):
+    nodes = []
+
+
+    for node in old_nodes:
+
+        chunks = extract_markdown_images(node.text)
+        
+
+        if chunks == []:
+            nodes.append(node)
+            continue
+
 
         txt = node.text
 
@@ -54,7 +118,7 @@ def split_nodes_link(old_nodes):
             anchor = link[0]
             url = link[1]
             
-            split_node = txt.split(f"[{anchor}]({url})")
+            split_node = txt.split(f"![{anchor}]({url})")
             txt = split_node[1]
             links.append(split_node[0])
             links.append(f"[{anchor}]({url})")
@@ -63,40 +127,90 @@ def split_nodes_link(old_nodes):
         # print(links)
 
         if node.type is TextType.TEXT:
+            # print('chunks... ', chunks)
+            if chunks == []:
+                nodes.append(node)
             for text in links:
-                # print(text)
+                # print('text...', f"\'{text}\'")
                 if text == "":
-                    break
+                    continue
                 if text.startswith(" ") or text.endswith(" "):
+                    # print("ran")
                     nodes.append(TextNode(text, TextType.TEXT))
+                    # print('temp_nodes...', nodes)
 
                 elif not text.startswith(" ") and not text.endswith(" "):
                     info = extract_markdown_links(text)[0]
-                    nodes.append(TextNode(info[0], TextType.LINK, info[1]))
+                    # print('info... ', info)
+                    nodes.append(TextNode(info[0], TextType.IMG, info[1]))
+                # print('nodes... ', nodes)
+                
         else:
             nodes.append(node)
 
-    print(nodes)
+    # print(nodes)
     return nodes
 
-def split_nodes_image(old_nodes):
-    nodes = []
 
-    for node in old_nodes:
+# This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)
 
-        split_node = node.text.split(extract_markdown_images(node.text))
-        if node.type is TextType.TEXT:
-            for text in split_node:
-                #print(text)
-                if text == "":
-                    break
-                if text.startswith(" ") or text.endswith(" "):
-                    nodes.append(TextNode(text, TextType.TEXT))
+def text_to_text_nodes(text):
+    node = TextNode(text, TextType.TEXT)
 
-                elif not text.startswith(" ") and not text.endswith(" "):
-                    nodes.append(TextNode(text, TextType.IMG))
-        else:
-            nodes.append(node)
+    new_nodes = split_delimiter([node], "**", TextType.BOLD)
+    new_nodes = split_delimiter(new_nodes, "`", TextType.CODE)
+    new_nodes = split_delimiter(new_nodes, "_", TextType.ITALIC)
+    # new_nodes = split_nodes_image(new_nodes)
+    new_nodes = split_nodes_link(new_nodes)
 
-    return nodes
+    return new_nodes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

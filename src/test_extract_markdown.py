@@ -1,4 +1,3 @@
-
 import unittest
 
 from markdown import split_nodes_link, split_nodes_image
@@ -26,20 +25,37 @@ class TestTextNode(unittest.TestCase):
 
         self.assertListEqual(correct, new_nodes)
 
-    def test_image(self):
+    def test_link(self):
         node = TextNode(
-        "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+        "This is text with a link [to boot dev](https://www.boot.dev) in the middle of some text",
         TextType.TEXT,
         )
 
         new_nodes = split_nodes_link([node])
 
         correct =  [
+            TextNode("This is text with a link ", TextType.TEXT),
+            TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+            TextNode(" in the middle of some text ", TextType.TEXT),
+            ]
+
+        print('new_nodes... ', new_nodes)
+        self.assertListEqual(correct, new_nodes)
+
+    def test_image(self):
+        node = TextNode(
+        "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+        TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_image([node])
+
+        correct =  [
             TextNode("This is text with an ", TextType.TEXT),
-            TextNode("image", TextType.IMG, "https://www.boot.dev"),
+            TextNode("image", TextType.IMG, "https://i.imgur.com/zjjcJKZ.png"),
             TextNode(" and another ", TextType.TEXT),
             TextNode(
-                "to youtube", TextType.IMG, "https://www.youtube.com/@bootdotdev"
+                "second image", TextType.IMG, "https://i.imgur.com/3elNhQu.png"
             ),
             ]
 
