@@ -60,6 +60,7 @@ def split_nodes_link(old_nodes):
             nodes.append(node)
             continue
 
+        i = 0
         for link in chunks:
             # print('link... ', link)
             anchor = link[0]
@@ -67,14 +68,15 @@ def split_nodes_link(old_nodes):
             
             split_node = txt.split(f"[{anchor}]({url})")
             # print('split... ', split_node)
-            txt = split_node[1]
-            links.append(split_node[0])
+            if len(split_node) > 1:
+                txt = split_node[1]
+                links.append(split_node[0])
+                i += 1
             links.append(f"[{anchor}]({url})")
-        if txt is not None:
-            links.append(txt)
-            # print("node", links)
-            
-        # print('links... ', links)
+            # print('links... ', links)
+            if txt is not None and not txt in links and extract_markdown_links(txt) == []:
+                links.append(txt)
+
 
         if node.type is TextType.TEXT:
             # print('chunks... ', chunks)
@@ -105,17 +107,19 @@ def split_nodes_image(old_nodes):
     for node in old_nodes:
 
         chunks = extract_markdown_images(node.text)
-        
-
-        if chunks == []:
-            nodes.append(node)
-            continue
-
+        # print('node...', node)
 
         txt = node.text
 
         links = []
 
+        # print('txt... ', txt)
+
+        if chunks == []:
+            nodes.append(node)
+            continue
+
+        i = 0
         for link in chunks:
             # print('link... ', link)
             anchor = link[0]
@@ -123,19 +127,18 @@ def split_nodes_image(old_nodes):
             
             split_node = txt.split(f"![{anchor}]({url})")
             # print('split... ', split_node)
-            txt = split_node[1]
-            links.append(split_node[0])
-            links.append(f"[{anchor}]({url})")
-        if txt is not None:
-            links.append(txt)
-            # print("node", links)
-            
-        # print(links)
+            if len(split_node) > 1:
+                txt = split_node[1]
+                links.append(split_node[0])
+                i += 1
+            links.append(f"![{anchor}]({url})")
+            # print('links... ', links)
+            if txt is not None and not txt in links and extract_markdown_images(txt) == []:
+                links.append(txt)
+
 
         if node.type is TextType.TEXT:
             # print('chunks... ', chunks)
-            if chunks == []:
-                nodes.append(node)
             for text in links:
                 # print('text...', f"\'{text}\'")
                 if text == "":
@@ -146,17 +149,15 @@ def split_nodes_image(old_nodes):
                     # print('temp_nodes...', nodes)
 
                 elif not text.startswith(" ") and not text.endswith(" "):
-                    info = extract_markdown_links(text)[0]
+                    info = extract_markdown_images(text)[0]
                     # print('info... ', info)
                     nodes.append(TextNode(info[0], TextType.IMG, info[1]))
-                # print('nodes... ', nodes)
-                
+
         else:
             nodes.append(node)
 
-    # print(nodes)
+    # print('\n\n\nnodes', nodes)
     return nodes
-
 
 # This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)
 

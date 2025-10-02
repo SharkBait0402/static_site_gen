@@ -62,6 +62,26 @@ class TestTextNode(unittest.TestCase):
 
         self.assertListEqual(correct, new_nodes)
 
+    def test_two_links(self):
+        node = TextNode(
+        "This is text with a link [to boot dev](https://www.boot.dev) and [to boot dev](https://www.boot.dev)",
+        TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_link([node])
+
+        correct =  [
+            TextNode("This is text with a link ", TextType.TEXT),
+            TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode(
+                "to boot dev", TextType.LINK, "https://www.boot.dev"
+            ),
+            ]
+
+        # print('new_nodes... ', new_nodes)
+        self.assertListEqual(correct, new_nodes)
+
 
 
 

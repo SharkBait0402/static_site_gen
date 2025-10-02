@@ -17,6 +17,13 @@ class TestTextNode(unittest.TestCase):
         )
         self.assertListEqual([("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")], matches)
 
+    def test_links_if_no_link(self):
+        matches = extract_markdown_links(
+            "This is text with no link"
+        )
+        self.assertListEqual([], matches)
+
+
 
 if __name__ == "__main__":
     unittest.main()
