@@ -71,7 +71,7 @@ class TestTextNode(unittest.TestCase):
             TextNode("obi wan image", TextType.IMG, "https://i.imgur.com/fJRm4Vk.jpeg"),
             ]
 
-        print('\n\nnew nodes... ', new_nodes, '\n\n')
+        # print('\n\nnew nodes... ', new_nodes, '\n\n')
         # print('correct... ', correct, '\n\n')
         self.assertListEqual(correct, new_nodes)
 
