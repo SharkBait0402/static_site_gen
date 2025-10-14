@@ -1,4 +1,6 @@
 from enum import Enum
+from htmlnode import HTMLNode
+from text_to_children import text_to_children
 
 def markdown_to_blocks(text):
     blocks = []
@@ -55,5 +57,22 @@ def markdown_to_html_node(markdown):
 
     for block in blocks:
         type = block_to_block_type(block)
+        new_node = None
 
-        
+        if type == BlockType.P:
+            new_node = HTMLNode("p", block, text_to_children(block))
+        elif type == BlockType.H:
+            new_node = HTMLNode("h", block, text_to_children(block))
+        elif type == BlockType.QUOTE:
+            new_node = HTMLNode("p", block, text_to_children(block))
+        elif type == BlockType.UL:
+            new_node = HTMLNode("p", block, text_to_children(block))
+        elif type == BlockType.OL:
+            new_node = HTMLNode("p", block, text_to_children(block))
+        elif type == BlockType.CODE:
+            new_node = None #create text node and ignore children
+    
+        #TODO:I need to find a way to add the children to a parent node and print it out as one html file... have it printing one block good for now need it to combine them
+
+
+        return new_node
