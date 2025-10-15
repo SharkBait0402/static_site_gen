@@ -54,6 +54,15 @@ class TestTextNode(unittest.TestCase):
 
         self.assertEqual(new_nodes, correct)
 
+    def test_single(self):
+        node = TextNode("This is text without a bolded word", TextType.TEXT)
+        new_nodes = split_delimiter([node], "**", TextType.BOLD)
+
+        correct = [
+            TextNode("This is text without a bolded word", TextType.TEXT),
+        ]
+
+        self.assertEqual(new_nodes, correct)
 
 
 if __name__ == "__main__":

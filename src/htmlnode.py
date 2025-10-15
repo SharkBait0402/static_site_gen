@@ -9,11 +9,17 @@ class HTMLNode:
 
     def to_html(self):
         final = f"<{self.tag}>"
-        for child in self.children:
-            final += child.to_html()
+
+        if self.children is None:
+            final += self.value
+
+        else:
+            for child in self.children:
+                final += child.to_html()
 
         final += f"</{self.tag}>"
-        final = final.replace('\n', ' ')
+        if self.tag != "pre":
+            final = final.replace('\n', ' ')
         return final
 
     def props_to_html(self):

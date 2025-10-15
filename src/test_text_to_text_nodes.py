@@ -75,6 +75,25 @@ class TestTextNode(unittest.TestCase):
         # print('correct... ', correct, '\n\n')
         self.assertListEqual(correct, new_nodes)
 
+    def test_node_two_image(self):
+
+        text = "This is another paragraph with _italic_ text and `code` here"
+
+
+        new_nodes = text_to_text_nodes(text)
+
+        correct =  [
+            TextNode("This is another paragraph with ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" text and ", TextType.TEXT),
+            TextNode("code", TextType.CODE),
+            TextNode(" here", TextType.TEXT),
+            ]
+
+        # print('\n\nnew nodes... ', new_nodes, '\n\n')
+        # print('correct... ', correct, '\n\n')
+        self.assertListEqual(correct, new_nodes)
+
 
 
 

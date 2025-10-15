@@ -1,5 +1,6 @@
 from enum import Enum
 from htmlnode import HTMLNode, ParentNode
+from textnode import TextNode, text_node_to_html, TextType
 from text_to_children import text_to_children
 
 def markdown_to_blocks(text):
@@ -54,10 +55,14 @@ def block_to_block_type(block):
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
+    new_nodes = []
 
     for block in blocks:
+
+        if block == '':
+            continue
+
         type = block_to_block_type(block)
-        new_nodes = []
 
         if type == BlockType.P:
             new_nodes.append(HTMLNode("p", block, text_to_children(block)))
@@ -70,6 +75,11 @@ def markdown_to_html_node(markdown):
         elif type == BlockType.OL:
             new_nodes.append(HTMLNode("ol", block, text_to_children(block)))
         elif type == BlockType.CODE:
-            new_nodes.append(HTMLNode("code", block, text_to_children(block)))
+            block = block.replace("```", "")
+            if block.startswith("\n"):
+                block = block[1::]
+            code_node = TextNode(block, TextType.CODE)
+            html = text_node_to_html(code_node)
+            new_nodes.append(HTMLNode("pre", None, [html]))
 
-        return ParentNode("div", new_nodes)
+    return ParentNode("div", new_nodes)

@@ -18,7 +18,7 @@ def split_delimiter(old_nodes, delimiter, text_type):
                 #print(text)
                 if text == "":
                     break
-                if text.startswith(" ") or text.endswith(" "):
+                if text.startswith(" ") or text.endswith(" ") or text == node.text:
                     nodes.append(TextNode(text, TextType.TEXT))
 
                 elif not text.startswith(" ") and not text.endswith(" "):
