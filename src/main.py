@@ -1,6 +1,10 @@
 from textnode import TextNode
+import os
+import shutil
 
 def main():
-    node = TextNode("dummy text", "link", "https://bootdev.com")
+    shutil.rmtree("public")
+
+    os.mkdir("public")
 
 main()
