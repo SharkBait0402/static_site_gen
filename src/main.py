@@ -2,9 +2,12 @@ from textnode import TextNode
 import os
 import shutil
 
-def main():
+def copy_from_public():
     shutil.rmtree("public")
-
     os.mkdir("public")
+
+
+def main():
+
 
 main()
