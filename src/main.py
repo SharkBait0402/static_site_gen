@@ -6,8 +6,7 @@ def copy_from_public():
     shutil.rmtree("public")
     os.mkdir("public")
 
-
 def main():
-
+    pass
 
 main()
