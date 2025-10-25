@@ -3,10 +3,12 @@ import os
 import shutil
 
 def copy_from_public():
+    files = os.listdir("static")
+
     shutil.rmtree("public")
     os.mkdir("public")
 
 def main():
-    pass
+    copy_from_public()
 
 main()
