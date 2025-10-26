@@ -29,8 +29,13 @@ def block_to_block_type(block):
     is_ol = True
     i = 1
 
-    if block.startswith("#"):
-        return BlockType.H
+    if '# ' in block:
+        text = block.split('# ')
+        num = len(text[0]) + 1
+        if num <= 6:
+            return BlockType.H
+        else:
+            return BlockType.P
 
     if block.startswith("```") and block.endswith("```"):
         return BlockType.CODE
@@ -67,7 +72,9 @@ def markdown_to_html_node(markdown):
         if type == BlockType.P:
             new_nodes.append(HTMLNode("p", block, text_to_children(block)))
         elif type == BlockType.H:
-            new_nodes.append(HTMLNode("h", block, text_to_children(block)))
+            text = block.split('# ')
+            num = len(text[0]) + 1
+            new_nodes.append(HTMLNode(f"h{num}", text[1], text_to_children(text[1])))
         elif type == BlockType.QUOTE:
             new_nodes.append(HTMLNode("blockquote", block, text_to_children(block)))
         elif type == BlockType.UL:
@@ -83,3 +90,8 @@ def markdown_to_html_node(markdown):
             new_nodes.append(HTMLNode("pre", None, [html]))
 
     return ParentNode("div", new_nodes)
+
+def extract_title(markdown):
+    pass
+#TODO:return the header and if there is not one then raise an error
+
