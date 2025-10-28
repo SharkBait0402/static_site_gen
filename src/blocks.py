@@ -92,6 +92,10 @@ def markdown_to_html_node(markdown):
     return ParentNode("div", new_nodes)
 
 def extract_title(markdown):
-    pass
-#TODO:return the header and if there is not one then raise an error
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        if block.startswith("# "):
+            block = block[1::]
+            return block.strip()
+    raise Exception("no h1 in markdown")
 
