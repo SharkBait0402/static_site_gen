@@ -50,10 +50,13 @@ def text_node_to_html(node):
         return LeafNode("code", node.text)   
 
     if node.type is TextType.LINK:
-        return LeafNode("a", node.text, "href")   
+        return LeafNode("a", node.text, {"href": node.url})   
 
     if node.type is TextType.IMG:
-        return LeafNode("img", "", ["src", "alt"])   
+        src = ""
+        if node.url_exist:
+            src = node.url
+        return LeafNode("img", "", {"src": src, "alt": node.text})   
 
 
 

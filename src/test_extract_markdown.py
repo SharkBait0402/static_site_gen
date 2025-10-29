@@ -82,6 +82,22 @@ class TestTextNode(unittest.TestCase):
         # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
+    def test_two_links(self):
+        node = TextNode(
+            "Want to get in touch? [Contact me here](/contact).",
+        TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_link([node])
+
+        correct =  [
+            TextNode("Want to get in touch? ", TextType.TEXT),
+            TextNode("Contact me here", TextType.LINK, "/contact"),
+            ]
+
+        # print('new_nodes... ', new_nodes)
+        self.assertListEqual(correct, new_nodes)
+
 
 
 

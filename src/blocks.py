@@ -76,11 +76,12 @@ def markdown_to_html_node(markdown):
             num = len(text[0]) + 1
             new_nodes.append(HTMLNode(f"h{num}", text[1], text_to_children(text[1])))
         elif type == BlockType.QUOTE:
+            block = block.replace(">", "\n")
             new_nodes.append(HTMLNode("blockquote", None, text_to_children(block)))
         elif type == BlockType.UL:
-            new_nodes.append(HTMLNode("ul", None, text_to_children(block)))
+            new_nodes.append(HTMLNode("ul", None, text_to_children(block[1::])))
         elif type == BlockType.OL:
-            new_nodes.append(HTMLNode("ol", None, text_to_children(block)))
+            new_nodes.append(HTMLNode("ol", None, text_to_children(block[2::])))
         elif type == BlockType.CODE:
             block = block.replace("```", "")
             if block.startswith("\n"):

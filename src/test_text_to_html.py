@@ -18,18 +18,18 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(html_node.value, "This is a bold node")
 
     def test_img(self):
-        node = TextNode("This is a image node", TextType.IMG)
+        node = TextNode("This is a image node", TextType.IMG, "/images/bigbird")
         html_node = text_node_to_html(node)
         self.assertEqual(html_node.tag, "img")
         self.assertEqual(html_node.value, "")
-        self.assertEqual(html_node.props, ["src", "alt"])
+        self.assertEqual(html_node.props, {"src": "/images/bigbird", "alt": "This is a image node"})
 
     def test_link(self):
-        node = TextNode("This is a link node", TextType.LINK)
+        node = TextNode("This is a link node", TextType.LINK, "www.bigbird.com")
         html_node = text_node_to_html(node)
         self.assertEqual(html_node.tag, "a")
         self.assertEqual(html_node.value, "This is a link node")
-        self.assertEqual(html_node.props, "href")
+        self.assertEqual(html_node.props, {"href": "www.bigbird.com"})
 
 
 

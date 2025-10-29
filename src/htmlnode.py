@@ -27,6 +27,8 @@ class HTMLNode:
         if self.props == None:
             return ""
         
+        # print(self.props)
+
         try:
             keys = self.props.keys()
         except:
@@ -56,7 +58,7 @@ class LeafNode(HTMLNode):
             return self.value
 
         if self.props is not None:
-            return f"<{self.tag} {self.props_to_html()}>{self.value}</{self.tag}>"
+            return f"<{self.tag}{self.props_to_html()}>"
         
         return f"<{self.tag}>{self.value}</{self.tag}>"
 
