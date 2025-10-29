@@ -6,11 +6,13 @@ def generate_page(from_path, template_path, dest_path):
 
     with open(from_path, encoding='utf-8') as f:
         from_data = f.read()
+    print(from_data)
 
     with open(template_path, encoding='utf-8') as f:
         template_data = f.read()
 
     html_node = markdown_to_html_node(from_data)   
+    print(html_node)
     content = html_node.to_html()
 
     title = extract_title(from_data)
@@ -21,5 +23,7 @@ def generate_page(from_path, template_path, dest_path):
     dirpath = os.path.dirname(dest_path)
     os.path.mkdirs(dirpath, exist_ok=True)
     
+    print(full_html)
+
     with open(dest_path, 'w', encoding='utf-8') as f:
         f.write(full_html)

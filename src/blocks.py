@@ -70,17 +70,17 @@ def markdown_to_html_node(markdown):
         type = block_to_block_type(block)
 
         if type == BlockType.P:
-            new_nodes.append(HTMLNode("p", block, text_to_children(block)))
+            new_nodes.append(HTMLNode("p", None, text_to_children(block)))
         elif type == BlockType.H:
             text = block.split('# ')
             num = len(text[0]) + 1
             new_nodes.append(HTMLNode(f"h{num}", text[1], text_to_children(text[1])))
         elif type == BlockType.QUOTE:
-            new_nodes.append(HTMLNode("blockquote", block, text_to_children(block)))
+            new_nodes.append(HTMLNode("blockquote", None, text_to_children(block)))
         elif type == BlockType.UL:
-            new_nodes.append(HTMLNode("ul", block, text_to_children(block)))
+            new_nodes.append(HTMLNode("ul", None, text_to_children(block)))
         elif type == BlockType.OL:
-            new_nodes.append(HTMLNode("ol", block, text_to_children(block)))
+            new_nodes.append(HTMLNode("ol", None, text_to_children(block)))
         elif type == BlockType.CODE:
             block = block.replace("```", "")
             if block.startswith("\n"):

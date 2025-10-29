@@ -98,5 +98,18 @@ This is a paragraph with _italic_ text and `code` here
             "<div><p>####### This is <b>bolded</b> header text in an h tag here</p><p>This is a paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
         )
 
+    def test_img(self):
+        md = """
+![JRR Tolkien sitting](/images/tolkien.png)
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+
+        self.assertEqual(html,
+            "<div><img src=/images/tolkien.png alt=JRR Tolkien sitting></div>"
+            )
+
+
 if __name__ == "__main__":
     unittest.main()

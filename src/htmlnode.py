@@ -27,7 +27,10 @@ class HTMLNode:
         if self.props == None:
             return ""
         
-        keys = self.props.keys()
+        try:
+            keys = self.props.keys()
+        except:
+            return ""
 
         str = ""
         for key in keys:

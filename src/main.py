@@ -16,14 +16,14 @@ def copy_from_static(path, dest):
         src += f'/{file}'
         dest_path = dest
         if os.path.isfile(src):
-            print(src, 'src')
-            print(dest_path, 'dest\n\n')
+            # print(src, 'src')
+            # print(dest_path, 'dest\n\n')
             shutil.copy(src, dest_path)
         else:
-            print(src, 'src not file')
+            # print(src, 'src not file')
             dest_path += f'/{file}'
             os.mkdir(dest_path)
-            print(dest_path, 'dest not file\n\n')
+            # print(dest_path, 'dest not file\n\n')
             copy_from_static(src, dest_path)
 
 
@@ -32,4 +32,5 @@ def copy_from_static(path, dest):
 def main():
     copy_from_static("static", "public")
     generate_page("content/index.md", "template.html", "public/index.html")
+
 main()
