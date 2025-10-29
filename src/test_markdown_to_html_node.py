@@ -107,7 +107,7 @@ This is a paragraph with _italic_ text and `code` here
         html = node.to_html()
 
         self.assertEqual(html,
-            "<div><img src=/images/tolkien.png alt=JRR Tolkien sitting></div>"
+            "<div><img src=/images/tolkien.png alt=JRR Tolkien sitting></div>",
             )
 
 
