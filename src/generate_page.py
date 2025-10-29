@@ -16,7 +16,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(from_data)
 
     full_html = template_data.replace("{{ Title }}", title)
-    full_ html = full_html.replace("{{ Content }}", content)
+    full_html = full_html.replace("{{ Content }}", content)
 
     dirpath = os.path.dirname(dest_path)
     os.path.mkdirs(dirpath, exist_ok=True)
