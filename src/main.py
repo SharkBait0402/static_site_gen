@@ -1,4 +1,5 @@
 from textnode import TextNode
+from generate_page import generate_page
 import os
 import shutil
 
@@ -7,7 +8,7 @@ def copy_from_static(path, dest):
     root = 'static'
     src = path
 
-    if path is root:
+    if path == root:
         shutil.rmtree("public")
         os.mkdir("public")
 
@@ -30,5 +31,5 @@ def copy_from_static(path, dest):
 
 def main():
     copy_from_static("static", "public")
-
+    generate_page("content/index.md", "template.html", "public/index.html")
 main()
