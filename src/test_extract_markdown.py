@@ -82,7 +82,7 @@ class TestTextNode(unittest.TestCase):
         # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
-    def test_two_links(self):
+    def test_link_end(self):
         node = TextNode(
             "Want to get in touch? [Contact me here](/contact).",
         TextType.TEXT,
@@ -98,7 +98,7 @@ class TestTextNode(unittest.TestCase):
         # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
-    def test_link_end(self):
+    def test_link_extract_end(self):
         node = TextNode(
         "Want to get in touch? [Contact me here](/contact).",
         TextType.TEXT,
@@ -106,9 +106,7 @@ class TestTextNode(unittest.TestCase):
 
         text = extract_markdown_links(node.text)
 
-        print(text)
-
-        self.assertEqual(text, "sloppy code")
+        self.assertEqual(text, [("Contact me here", "/contact")])
 
 
 
