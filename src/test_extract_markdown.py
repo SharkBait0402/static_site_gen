@@ -1,6 +1,6 @@
 import unittest
 
-from markdown import split_nodes_link, split_nodes_image
+from markdown import split_nodes_link, split_nodes_image, extract_markdown_links
 from textnode import TextNode, TextType
 
 
@@ -62,7 +62,7 @@ class TestTextNode(unittest.TestCase):
 
         self.assertListEqual(correct, new_nodes)
 
-    def test_two_links(self):
+    def test_two_links_same(self):
         node = TextNode(
         "This is text with a link [to boot dev](https://www.boot.dev) and [to boot dev](https://www.boot.dev)",
         TextType.TEXT,
@@ -98,6 +98,17 @@ class TestTextNode(unittest.TestCase):
         # print('new_nodes... ', new_nodes)
         self.assertListEqual(correct, new_nodes)
 
+    def test_link_end(self):
+        node = TextNode(
+        "Want to get in touch? [Contact me here](/contact).",
+        TextType.TEXT,
+        )
+
+        text = extract_markdown_links(node.text)
+
+        print(text)
+
+        self.assertEqual(text, "sloppy code")
 
 
 
