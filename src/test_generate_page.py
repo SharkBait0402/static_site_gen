@@ -5,7 +5,7 @@ from generate_page import generate_page
 
 
 
-def test_page(self):
+def test_page():
     md = """
 # Tolkien Fan Club
 
