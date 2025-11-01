@@ -106,7 +106,7 @@ class TestTextNode(unittest.TestCase):
 
         text = extract_markdown_links(node.text)
         split_node = node.text.split("[Contact me here](/contact)")
-        print(text)
+        # print(text)
 
         self.assertEqual(text, [("Contact me here", "/contact")])
 

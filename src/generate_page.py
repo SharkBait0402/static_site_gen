@@ -21,7 +21,7 @@ def generate_page(from_path, template_path, dest_path):
     full_html = full_html.replace("{{ Content }}", content)
 
     dirpath = os.path.dirname(dest_path)
-    os.path.mkdirs(dirpath, exist_ok=True)
+    os.makedirs(dirpath, exist_ok=True)
     
     print(full_html)
 
