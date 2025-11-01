@@ -94,7 +94,7 @@ def split_nodes_link(old_nodes):
                 # print('text...', f"\'{text}\'")
                 if text == "":
                     continue
-                if text.startswith(" ") or text.endswith(" "):
+                if not is_link(text):
                     # print("ran")
                     nodes.append(TextNode(text, TextType.TEXT))
                     # print('temp_nodes...', nodes)
