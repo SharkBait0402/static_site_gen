@@ -57,6 +57,30 @@ def block_to_block_type(block):
         return BlockType.OL
     return BlockType.P
 
+def string_to_ul(text):
+    new_list = []
+    new_text = text.split("\n")
+    for line in new_text:
+        new_list.append(f"<li>{line[2::]}</li>")
+    final = "\n".join(new_list)
+    return final
+
+def string_to_ol(text):
+    new_list = []
+    new_text = text.split("\n")
+    for line in new_text:
+        new_list.append(f"<li>{line[3::]}</li>")
+    final = "\n".join(new_list)
+    return final
+
+def string_to_quote(text):
+    new_list = []
+    new_text = text.split("\n")
+    for line in new_text:
+        if line != ">":
+            new_list.append(f"{line[2::]}")
+    return "\n".join(new_list)
+
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
@@ -76,15 +100,13 @@ def markdown_to_html_node(markdown):
             num = len(text[0]) + 1
             new_nodes.append(HTMLNode(f"h{num}", text[1], text_to_children(text[1])))
         elif type == BlockType.QUOTE:
-            block = block.replace(">", "\n")
-            new_nodes.append(HTMLNode("blockquote", None, text_to_children(block)))
+            usable = string_to_quote(block)
+            new_nodes.append(HTMLNode("blockquote", None, text_to_children(usable)))
         elif type == BlockType.UL:
-            usable = "<li>" + block[1::]
-            usable = usable.replace("- ", "</li>\n<li>")
+            usable = string_to_ul(block)
             new_nodes.append(HTMLNode("ul", None, text_to_children(usable)))
         elif type == BlockType.OL:
-            usable = "<li>" + block[2::]
-            usable = usable.replace(". ", "</li>\n<li>")
+            usable = string_to_ol(block)
             new_nodes.append(HTMLNode("ol", None, text_to_children(usable)))
         elif type == BlockType.CODE:
             block = block.replace("```", "")
