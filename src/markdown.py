@@ -14,22 +14,32 @@ def split_delimiter(old_nodes, delimiter, text_type):
 
         split_node = node.text.split(delimiter)
         if node.type is TextType.TEXT:
+            if len(split_node) == 3 and split_node[0] == '' and split_node[2] == '':
+                nodes.append(TextNode(split_node[1], text_type))
+                break
+
             for text in split_node:
                 #print(text)
-                strip_text = text.strip(",!.?:")
                 if text == "":
                     continue
-                if strip_text.startswith(" ") or strip_text.endswith(" ") or strip_text == node.text:
+                if text == node.text:
+                    nodes.append(TextNode(text, TextType.TEXT))
+                    break
+                if is_tagged(text):
+                    nodes.append(TextNode(text, text_type))
+                else:
                     nodes.append(TextNode(text, TextType.TEXT))
 
-                elif not strip_text.startswith(" ") and not strip_text.endswith(" "):
-                    nodes.append(TextNode(text, text_type))
         else:
             nodes.append(node)
 
     return nodes
 
-
+def is_tagged(text):
+    stripped = text.strip(",.?!: ()")
+    if stripped == text:
+        return True
+    return False
 
 
 def extract_markdown_images(text):

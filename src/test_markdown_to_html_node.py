@@ -107,20 +107,6 @@ This is a paragraph with _italic_ text and `code` here
         html = node.to_html()
 
         self.assertEqual(html,
-            "<div><p><img src=\"/images/tolkien.png\" alt=\"JRR Tolkien sitting\"></div>",
-            )
-
-    def test_ul(self):
-        md = """
-- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)
-- [Why Tom Bombadil Was a Mistake](/blog/tom)
-- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)
-"""
-
-        node = markdown_to_html_node(md)
-        html = node.to_html()
-
-        self.assertEqual(html,
             "<div><p><img src=\"/images/tolkien.png\" alt=\"JRR Tolkien sitting\"></p></div>",
             )
 

@@ -93,6 +93,7 @@ class TestTextNode(unittest.TestCase):
         correct =  [
             TextNode("Want to get in touch? ", TextType.TEXT),
             TextNode("Contact me here", TextType.LINK, "/contact"),
+            TextNode(".", TextType.TEXT),
             ]
 
         # print('new_nodes... ', new_nodes)
