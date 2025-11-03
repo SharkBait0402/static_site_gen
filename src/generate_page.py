@@ -20,7 +20,7 @@ def generate_page(from_path, template_path, dest_path):
     full_html = template_data.replace("{{ Title }}", title)
     full_html = full_html.replace("{{ Content }}", content)
 
-    print('non recurse dest... ', dest_path)
+    # print('non recurse dest... ', dest_path)
     dirpath = os.path.dirname(dest_path)
     if dirpath == "":
         dirpath = dest_path

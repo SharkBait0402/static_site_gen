@@ -9,19 +9,20 @@ def generate_page_recursive(dir_path_content, template_path, dest_dir_path):
     beginning_dest = dest_dir_path
 
     for file in files:
-        src += f'/{file}'
+        current = src + f'/{file}'
         dest_path = dest_dir_path
         dest_path = dest_path.replace(".md", ".html")
         # print('dest...', dest_path)
-        if os.path.isfile(src):
+        new_dest = dest_path + f'/{file}'
+        new_dest = new_dest.replace('.md', '.html')
+
+        if os.path.isfile(current):
             # print('src...', src)
-            generate_page(src, template_path, dest_path)
+            generate_page(current, template_path, new_dest)
         else:
-            os.makedirs(dest_path, exist_ok=True)
-            generate_page_recursive(dir_path_content, template_path, dest_path)
+            os.makedirs(dest_path + f'/{file}', exist_ok=True)
+            generate_page_recursive(current, template_path, new_dest)
 
 
-        src = beginning_path
-        dest_path = beginning_dest
 
 
