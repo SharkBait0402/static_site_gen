@@ -16,18 +16,18 @@ def split_delimiter(old_nodes, delimiter, text_type):
         if node.type is TextType.TEXT:
             for text in split_node:
                 #print(text)
+                strip_text = text.strip(",!.?")
                 if text == "":
-                    break
-                if text.startswith(" ") or text.endswith(" ") or text == node.text:
+                    continue
+                if strip_text.startswith(" ") or strip_text.endswith(" ") or strip_text == node.text:
                     nodes.append(TextNode(text, TextType.TEXT))
 
-                elif not text.startswith(" ") and not text.endswith(" "):
+                elif not strip_text.startswith(" ") and not strip_text.endswith(" "):
                     nodes.append(TextNode(text, text_type))
         else:
             nodes.append(node)
 
     return nodes
-
 
 
 
