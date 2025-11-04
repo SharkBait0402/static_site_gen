@@ -35,8 +35,8 @@ def copy_from_static(path, dest):
         src = beginning_path
 
 
-if len(sys.argv) > 0:
-    basepath = sys.argv[0]
+if len(sys.argv) > 1:
+    basepath = sys.argv[1]
 else:
     basepath = '/'
 
