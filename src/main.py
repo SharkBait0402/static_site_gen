@@ -12,8 +12,7 @@ def copy_from_static(path, dest):
     beginning_path = path
 
     if path == root:
-        shutil.rmtree("public")
-        os.mkdir("public")
+        os.makedirs(dest, exist_ok=True)
 
     for file in files:
         src += f'/{file}'
@@ -27,7 +26,7 @@ def copy_from_static(path, dest):
         else:
             # print(src, 'src not file')
             dest_path += f'/{file}'
-            os.mkdir(dest_path)
+            os.makedirs(dest_path, exist_ok=True)
             # print(dest_path, 'dest not file\n\n')
             copy_from_static(src, dest_path)
 
@@ -40,7 +39,7 @@ else:
     basepath = "/"
 
 def main():
-    copy_from_static("static", "public")
+    copy_from_static("static", "docs")
     generate_page_recursive("content", "template.html", "docs", basepath)
 
 main()
@@ -51,4 +50,4 @@ main()
 # """
 # stripped = text.split("**")
 
-print(stripped)
+# print(stripped)
