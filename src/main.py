@@ -12,7 +12,9 @@ def copy_from_static(path, dest):
     beginning_path = path
 
     if path == root:
-        os.makedirs(dest, exist_ok=True)
+        if os.path.exists("docs"):
+            shutil.rmtree("docs")
+        os.mkdir("docs")
 
     for file in files:
         src += f'/{file}'
@@ -26,7 +28,7 @@ def copy_from_static(path, dest):
         else:
             # print(src, 'src not file')
             dest_path += f'/{file}'
-            os.makedirs(dest_path, exist_ok=True)
+            os.mkdir(dest_path)
             # print(dest_path, 'dest not file\n\n')
             copy_from_static(src, dest_path)
 
@@ -36,7 +38,7 @@ def copy_from_static(path, dest):
 if len(sys.argv) > 0:
     basepath = sys.argv[0]
 else:
-    basepath = "/"
+    basepath = '/'
 
 def main():
     copy_from_static("static", "docs")
