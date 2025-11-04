@@ -1,7 +1,7 @@
 import os
 from generate_page import generate_page
 
-def generate_page_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_page_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     files = os.listdir(dir_path_content)
     root = 'static'
     src = dir_path_content
@@ -18,10 +18,10 @@ def generate_page_recursive(dir_path_content, template_path, dest_dir_path):
 
         if os.path.isfile(current):
             # print('src...', src)
-            generate_page(current, template_path, new_dest)
+            generate_page(current, template_path, new_dest, basepath)
         else:
             os.makedirs(dest_path + f'/{file}', exist_ok=True)
-            generate_page_recursive(current, template_path, new_dest)
+            generate_page_recursive(current, template_path, new_dest, basepath)
 
 
 

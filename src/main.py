@@ -2,6 +2,7 @@ from textnode import TextNode
 from generate_page_recursive import generate_page_recursive
 import os
 import shutil
+import sys
 
 def copy_from_static(path, dest):
     files = os.listdir(path)
@@ -33,10 +34,14 @@ def copy_from_static(path, dest):
         src = beginning_path
 
 
+if len(sys.argv) > 0:
+    basepath = sys.argv[0]
+else:
+    basepath = "/"
 
 def main():
     copy_from_static("static", "public")
-    generate_page_recursive("content", "template.html", "public")
+    generate_page_recursive("content", "template.html", "docs", basepath)
 
 main()
 
